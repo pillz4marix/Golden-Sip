@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOLDEN SIP — Events</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&family=Rajdhani:wght@300;400;600;700&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep: #111111;
+    --card: #161616;
+    --border: #2a2a2a;
+    --gold: #c9a84c;
+    --gold-light: #e8c86e;
+    --gold-dim: #7a6030;
+    --white: #f5f0e8;
+    --white-dim: #a09880;
+    --text: #d4cfc5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--black);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 700;
+    letter-spacing: 0.3em; color: var(--gold);
+    text-decoration: none;
+  }
+  .logo span { color: var(--white); }
+  nav ul { display: flex; gap: 2rem; list-style: none; }
+  nav a {
+    font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--white-dim); text-decoration: none;
+    transition: color 0.3s;
+  }
+  nav a:hover { color: var(--gold); }
+  .nav-cta {
+    padding: 0.5rem 1.4rem;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important; border-radius: 2px;
+    transition: background 0.3s, color 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--gold) !important; color: var(--black) !important; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 8rem 4rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-glow {
+    position: absolute; top: -20%; left: 50%;
+    transform: translateX(-50%);
+    width: 900px; height: 500px;
+    background: radial-gradient(ellipse, rgba(201,168,76,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 750px; }
+  .hero-eyebrow {
+    font-size: 0.75rem; letter-spacing: 0.5em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block;
+    width: 40px; height: 1px; background: var(--gold);
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 700; line-height: 0.95;
+    color: var(--white); margin-bottom: 1.5rem;
+  }
+  h1 em { font-style: italic; color: var(--gold); }
+  .hero-sub {
+    font-size: 1rem; font-weight: 300; line-height: 1.8;
+    color: var(--white-dim); max-width: 520px; margin-bottom: 3rem;
+  }
+  .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    padding: 0.9rem 2.5rem; background: var(--gold);
+    color: var(--black); font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; border-radius: 2px; cursor: pointer;
+    transition: background 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); }
+  .btn-outline {
+    padding: 0.9rem 2.5rem; background: transparent;
+    color: var(--white); font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    border: 1px solid var(--border); border-radius: 2px;
+    cursor: pointer; transition: border-color 0.3s, color 0.3s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+  .hero-badge {
+    position: absolute; bottom: 4rem; right: 4rem;
+    background: var(--card); border: 1px solid var(--gold);
+    border-radius: 2px; padding: 1.5rem 2rem; text-align: right;
+  }
+  .hero-badge strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; color: var(--gold); display: block; line-height: 1;
+  }
+  .hero-badge span { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--white-dim); }
+
+  /* ─── SHARED ─── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-size: 0.7rem; letter-spacing: 0.5em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700; color: var(--white); line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  h2 em { font-style: italic; color: var(--gold); }
+  .divider { width: 60px; height: 1px; background: linear-gradient(to right, var(--gold), transparent); margin-bottom: 2rem; }
+
+  /* ─── FILTER BAR ─── */
+  .filter-bar {
+    display: flex; gap: 0.75rem; flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .filter-btn {
+    padding: 0.5rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--white-dim);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    border-radius: 2px; cursor: pointer;
+    transition: all 0.25s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--gold); color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+
+  /* ─── EVENT CARDS ─── */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .event-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    cursor: pointer;
+  }
+  .event-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .event-card.hidden { display: none; }
+
+  .event-banner {
+    height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 3.5rem;
+    position: relative; overflow: hidden;
+  }
+  .event-banner::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--card));
+  }
+
+  .event-body { padding: 1.5rem; }
+  .event-meta {
+    display: flex; gap: 1rem; align-items: center;
+    margin-bottom: 0.75rem; flex-wrap: wrap;
+  }
+  .event-tag {
+    font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.2rem 0.6rem; border: 1px solid var(--gold-dim);
+    color: var(--gold); border-radius: 2px;
+  }
+  .event-date {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: var(--white-dim);
+  }
+  .event-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600;
+    color: var(--white); margin-bottom: 0.5rem;
+  }
+  .event-card p {
+    font-size: 0.85rem; color: var(--white-dim);
+    line-height: 1.7; margin-bottom: 1.25rem;
+  }
+  .event-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .event-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem; color: var(--gold);
+  }
+  .event-spots {
+    font-size: 0.75rem; color: var(--white-dim);
+  }
+  .event-spots span { color: var(--gold); font-weight: 700; }
+
+  /* ─── FEATURED EVENT ─── */
+  #featured { background: var(--deep); }
+  .featured-card {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0; max-width: 1100px; margin: 0 auto;
+    border: 1px solid var(--gold); border-radius: 2px; overflow: hidden;
+  }
+  .featured-visual {
+    background: linear-gradient(135deg, #1c1500, #0d0d00);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 7rem; position: relative; min-height: 400px;
+  }
+  .featured-visual::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .featured-badge {
+    position: absolute; top: 1.5rem; left: 1.5rem;
+    background: var(--gold); color: var(--black);
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 0.3rem 0.8rem; border-radius: 2px;
+  }
+  .featured-body {
+    background: var(--card); padding: 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .featured-body .event-tag { margin-bottom: 1.5rem; display: inline-block; }
+  .featured-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 700;
+    color: var(--white); margin-bottom: 1rem; line-height: 1.1;
+  }
+  .featured-body h3 em { font-style: italic; color: var(--gold); }
+  .featured-body p {
+    font-size: 0.9rem; color: var(--white-dim);
+    line-height: 1.8; margin-bottom: 2rem;
+  }
+  .featured-details {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 2rem;
+  }
+  .featured-detail-item {
+    border-left: 2px solid var(--gold); padding-left: 0.75rem;
+  }
+  .featured-detail-item strong {
+    display: block; font-size: 0.7rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--white-dim); margin-bottom: 0.2rem;
+  }
+  .featured-detail-item span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.8rem; color: var(--white);
+  }
+
+  /* ─── CALENDAR STRIP ─── */
+  #calendar { background: var(--deep); }
+  .calendar-strip {
+    display: flex; gap: 0.5rem;
+    overflow-x: auto; padding-bottom: 1rem;
+    scrollbar-width: none;
+    max-width: 1100px; margin: 0 auto 3rem;
+  }
+  .calendar-strip::-webkit-scrollbar { display: none; }
+  .cal-day {
+    flex-shrink: 0;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 2px; padding: 1rem 0.75rem;
+    text-align: center; min-width: 70px;
+    cursor: pointer; transition: border-color 0.2s;
+  }
+  .cal-day:hover, .cal-day.has-event { border-color: var(--gold-dim); }
+  .cal-day.active { border-color: var(--gold); background: rgba(201,168,76,0.06); }
+  .cal-day .day-name {
+    font-size: 0.65rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--white-dim);
+    display: block; margin-bottom: 0.4rem;
+  }
+  .cal-day .day-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 700; color: var(--white);
+    display: block; line-height: 1;
+  }
+  .cal-day .day-dot {
+    width: 5px; height: 5px; background: var(--gold);
+    border-radius: 50%; margin: 0.4rem auto 0;
+  }
+
+  /* ─── HOW IT WORKS ─── */
+  .steps-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border); border-radius: 2px; overflow: hidden;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .step-card {
+    background: var(--card); padding: 2.5rem 2rem;
+    position: relative;
+  }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 700;
+    color: rgba(201,168,76,0.1); line-height: 1;
+    position: absolute; top: 1rem; right: 1.5rem;
+  }
+  .step-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+  .step-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--white); margin-bottom: 0.5rem;
+  }
+  .step-card p { font-size: 0.85rem; color: var(--white-dim); line-height: 1.7; }
+
+  /* ─── MEMBER PERKS — REDISEÑADO ─── */
+  #perks {
+    background: var(--deep);
+    padding: 6rem 4rem;
+  }
+
+  .perks-header {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 4rem;
+  }
+  .perks-header .divider {
+    margin: 0 auto 1.5rem;
+  }
+  .perks-header p {
+    font-size: 0.92rem;
+    color: var(--white-dim);
+    line-height: 1.8;
+  }
+
+  /* Cuatro tarjetas arriba */
+  .perks-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 1100px;
+    margin: 0 auto 3rem;
+  }
+  .perk-card {
+    background: var(--card);
+    padding: 2rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .perk-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(to right, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .perk-card:hover { background: #1c1c1c; }
+  .perk-card:hover::before { opacity: 1; }
+
+  .perk-icon-lg {
+    font-size: 1.6rem;
+    width: 48px; height: 48px;
+    border: 1px solid var(--gold-dim);
+    border-radius: 2px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .perk-card strong {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.2;
+  }
+  .perk-card span {
+    font-size: 0.83rem;
+    color: var(--white-dim);
+    line-height: 1.65;
+  }
+
+  /* Banner CTA horizontal */
+  .perks-banner {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: linear-gradient(105deg, #1c1500 0%, #111100 50%, #0a0a0a 100%);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 3rem 3.5rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .perks-banner::before {
+    content: '✦';
+    position: absolute;
+    right: 3rem; top: 50%;
+    transform: translateY(-50%);
+    font-size: 9rem;
+    color: rgba(201,168,76,0.06);
+    font-family: 'Cormorant Garamond', serif;
+    pointer-events: none;
+    line-height: 1;
+  }
+  .perks-banner-text {
+    flex: 1;
+  }
+  .perks-banner-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    line-height: 1.1;
+  }
+  .perks-banner-text h3 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .perks-banner-text p {
+    font-size: 0.88rem;
+    color: var(--white-dim);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+  .perks-banner-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  .perks-banner-price {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── NEWSLETTER ─── */
+  #newsletter {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+  .newsletter-form {
+    display: flex; gap: 0.5rem; margin-top: 2rem; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .newsletter-form input {
+    flex: 1; min-width: 240px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 2px; color: var(--text);
+    font-family: 'Rajdhani', sans-serif; font-size: 0.95rem;
+    padding: 0.8rem 1.2rem; outline: none;
+    transition: border-color 0.3s;
+  }
+  .newsletter-form input:focus { border-color: var(--gold); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p { font-size: 0.75rem; color: var(--white-dim); }
+  .gold { color: var(--gold); }
+  footer nav { position: static; background: none; border: none; padding: 0; }
+  footer nav ul { gap: 1.5rem; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 200; display: none;
+    align-items: center; justify-content: center;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--deep); border: 1px solid var(--gold);
+    border-radius: 2px; padding: 3rem;
+    max-width: 480px; width: 90%; position: relative;
+  }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1.5rem;
+    background: none; border: none; color: var(--white-dim);
+    font-size: 1.5rem; cursor: pointer; line-height: 1;
+  }
+  .modal-close:hover { color: var(--gold); }
+  .modal h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; color: var(--white); margin-bottom: 0.25rem;
+  }
+  .modal-event-name {
+    font-size: 0.75rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 2rem;
+    display: block;
+  }
+  .modal-form { display: flex; flex-direction: column; gap: 1rem; }
+  .modal-form label {
+    font-size: 0.7rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--white-dim);
+    display: block; margin-bottom: 0.3rem;
+  }
+  .modal-form input, .modal-form select {
+    width: 100%; background: var(--card);
+    border: 1px solid var(--border); border-radius: 2px;
+    color: var(--text); font-family: 'Rajdhani', sans-serif;
+    font-size: 0.95rem; padding: 0.7rem 1rem; outline: none;
+    transition: border-color 0.3s;
+  }
+  .modal-form input:focus, .modal-form select:focus { border-color: var(--gold); }
+  .modal-form select option { background: var(--card); }
+  .modal-note {
+    font-size: 0.78rem; color: var(--white-dim);
+    line-height: 1.6; margin-top: 0.5rem;
+  }
+  .modal-note span { color: var(--gold); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .perks-banner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 2.5rem 2rem;
+    }
+    .perks-banner::before { display: none; }
+    .perks-banner-action { width: 100%; }
+    .perks-banner-action .btn-primary { width: 100%; text-align: center; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { gap: 1rem; }
+    section { padding: 4rem 1.5rem; }
+    #hero { padding: 7rem 1.5rem 4rem; }
+    #perks { padding: 4rem 1.5rem; }
+    .featured-card { grid-template-columns: 1fr; }
+    .featured-visual { min-height: 200px; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
+    .hero-badge { position: static; margin-top: 3rem; text-align: left; }
+    .perks-cards { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 480px) {
+    .perks-cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">GOLDEN<span> SIP</span></a>
+  <ul>
+    <li><a href="#events">Events</a></li>
+    <li><a href="#calendar">Calendar</a></li>
+    <li><a href="#perks">Members</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal('any')">Reserve Spot</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Golden Sip — Event Series</p>
+    <h1>Where Coffee<br>Meets <em>Community.</em></h1>
+    <p class="hero-sub">From late-night study sessions to professional networking mixers — Golden Sip hosts experiences designed to fuel your ambitions and connect you with people who share them.</p>
+    <div class="btn-row">
+      <a href="#events" class="btn-primary">Browse Events</a>
+      <a href="#perks" class="btn-outline">Member Perks</a>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <strong>12+</strong>
+    <span>Events per month</span>
+  </div>
+</section>
+
+<!-- FEATURED EVENT -->
+<section id="featured">
+  <p class="section-label" style="text-align:center; margin-bottom:0.5rem;">This Month's Highlight</p>
+  <h2 style="text-align:center; margin-bottom:3rem;">Featured <em>Event</em></h2>
+  <div class="featured-card">
+    <div class="featured-visual">
+      <div class="featured-badge">⭐ Featured</div>
+      <span style="position:relative; z-index:1;">🎓</span>
+    </div>
+    <div class="featured-body">
+      <span class="event-tag">Study & Focus</span>
+      <h3>Finals <em>Survival</em> Night</h3>
+      <p>Pull an all-nighter the right way. Golden Sip opens its doors exclusively for students during finals week — reserved booths, extended laptop access, and a special late-night menu to keep you sharp until the last question.</p>
+      <div class="featured-details">
+        <div class="featured-detail-item">
+          <strong>Date</strong>
+          <span>May 15, 2026</span>
+        </div>
+        <div class="featured-detail-item">
+          <strong>Time</strong>
+          <span>8:00 PM – 2:00 AM</span>
+        </div>
+        <div class="featured-detail-item">
+          <strong>Capacity</strong>
+          <span>60 seats</span>
+        </div>
+        <div class="featured-detail-item">
+          <strong>Price</strong>
+          <span>$8 / Free (Pass)</span>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn-primary" onclick="openModal('Finals Survival Night')">Reserve My Spot</button>
+        <a href="#events" class="btn-outline">See All Events</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDAR STRIP -->
+<section id="calendar">
+  <p class="section-label">May 2026</p>
+  <h2>Upcoming <em>Schedule</em></h2>
+  <div class="divider"></div>
+  <div class="calendar-strip" id="calStrip"></div>
+  <p style="font-size:0.78rem; color:var(--white-dim); margin-bottom:0;">
+    <span style="color:var(--gold);">✦</span> Dates with a dot have events. Click any day to filter the calendar below.
+  </p>
+</section>
+
+<!-- ALL EVENTS -->
+<section id="events" style="background:var(--deep);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <p class="section-label">All Events</p>
+    <h2>The Full <em>Calendar</em></h2>
+    <div class="divider"></div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterEvents('all', this)">All</button>
+      <button class="filter-btn" onclick="filterEvents('study', this)">Study Nights</button>
+      <button class="filter-btn" onclick="filterEvents('networking', this)">Networking</button>
+      <button class="filter-btn" onclick="filterEvents('barismo', this)">Coffee Workshops</button>
+      <button class="filter-btn" onclick="filterEvents('social', this)">Social</button>
+      <button class="filter-btn" onclick="filterEvents('members', this)">Members Only</button>
+    </div>
+
+    <div class="events-grid" id="eventsGrid">
+      <div class="event-card" data-cat="study" data-day="5">
+        <div class="event-banner" style="background:linear-gradient(135deg,#0d1a0d,#111);">📚</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Study Nights</span>
+            <span class="event-date">May 5 · 6:00 PM</span>
+          </div>
+          <h3>Silent Study Hours</h3>
+          <p>Distraction-free zone. Reserved booths, ambient focus music, and our full cold brew menu. Come alone or bring your study group.</p>
+          <div class="event-footer">
+            <span class="event-price">Free entry</span>
+            <span class="event-spots"><span>34</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="networking" data-day="8">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a1000,#111);">🤝</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Networking</span>
+            <span class="event-date">May 8 · 7:00 PM</span>
+          </div>
+          <h3>After-Hours Connect</h3>
+          <p>A casual networking mixer for young professionals and entrepreneurs. Curated conversations, business card exchanges, and complimentary Gold Lattes for the first 20 guests.</p>
+          <div class="event-footer">
+            <span class="event-price">$12 / $6 (Pass)</span>
+            <span class="event-spots"><span>18</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="barismo" data-day="10">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a0800,#111);">☕</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Coffee Workshop</span>
+            <span class="event-date">May 10 · 10:00 AM</span>
+          </div>
+          <h3>The Art of Espresso</h3>
+          <p>Learn extraction theory, grind calibration, and latte art from our head barista. Hands-on practice at our espresso bar. Perfect for coffee enthusiasts of any level.</p>
+          <div class="event-footer">
+            <span class="event-price">$20 / $12 (Pass)</span>
+            <span class="event-spots"><span>10</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="study" data-day="12">
+        <div class="event-banner" style="background:linear-gradient(135deg,#0d1a0d,#111);">💻</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Study Nights</span>
+            <span class="event-date">May 12 · 5:00 PM</span>
+          </div>
+          <h3>Code & Caffeine</h3>
+          <p>Weekly session for CS students and developers. Pair program, debug together, or just grind solo with great coffee and fast WiFi. All skill levels welcome.</p>
+          <div class="event-footer">
+            <span class="event-price">Free entry</span>
+            <span class="event-spots"><span>22</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="study" data-day="15">
+        <div class="event-banner" style="background:linear-gradient(135deg,#0d1a0d,#111);">🎓</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Study Nights</span>
+            <span class="event-date">May 15 · 8:00 PM</span>
+          </div>
+          <h3>Finals Survival Night</h3>
+          <p>Extended hours exclusively for students during finals week. Reserved booths, laptop access, and a late-night menu to keep you sharp. You've got this.</p>
+          <div class="event-footer">
+            <span class="event-price">$8 / Free (Pass)</span>
+            <span class="event-spots"><span>41</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="social" data-day="17">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a0d1a,#111);">🎵</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Social</span>
+            <span class="event-date">May 17 · 7:30 PM</span>
+          </div>
+          <h3>Golden Acoustics</h3>
+          <p>Live acoustic performance by local artists in our café space. Relaxed, intimate, and paired with our seasonal Ember Spice cocktail menu. A night to unwind.</p>
+          <div class="event-footer">
+            <span class="event-price">$10 / $5 (Pass)</span>
+            <span class="event-spots"><span>28</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="barismo" data-day="20">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a0800,#111);">🌿</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Coffee Workshop</span>
+            <span class="event-date">May 20 · 11:00 AM</span>
+          </div>
+          <h3>Cold Brew Masterclass</h3>
+          <p>Dive into the science of cold extraction. Learn ratios, steep times, and flavor profiling. Take home your own 500ml batch brewed during the class.</p>
+          <div class="event-footer">
+            <span class="event-price">$18 / $10 (Pass)</span>
+            <span class="event-spots"><span>8</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="members" data-day="22">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1c1500,#111);">✦</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Members Only</span>
+            <span class="event-date">May 22 · 7:00 PM</span>
+          </div>
+          <h3>Golden Pass Mixer</h3>
+          <p>Exclusive monthly gathering for Golden Pass members. New drink previews, member spotlights, and a raffle for a free month of membership. Your people, your space.</p>
+          <div class="event-footer">
+            <span class="event-price">Free (Pass required)</span>
+            <span class="event-spots"><span>15</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="networking" data-day="27">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a1000,#111);">💼</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Networking</span>
+            <span class="event-date">May 27 · 6:30 PM</span>
+          </div>
+          <h3>Startup Pitch Night</h3>
+          <p>Present your idea to a small group of peers and local mentors. 3-minute pitches, constructive feedback, and great coffee to fuel the ideas. Open to all.</p>
+          <div class="event-footer">
+            <span class="event-price">$8 / Free (Pass)</span>
+            <span class="event-spots"><span>12</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="social" data-day="29">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a0d1a,#111);">🎨</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Social</span>
+            <span class="event-date">May 29 · 5:00 PM</span>
+          </div>
+          <h3>Sketch & Sip</h3>
+          <p>A relaxed creative session for artists, designers, and curious minds. Bring your sketchbook, we bring the coffee and light background jazz. No experience needed.</p>
+          <div class="event-footer">
+            <span class="event-price">Free entry</span>
+            <span class="event-spots"><span>25</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="members" data-day="31">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1c1500,#111);">🏆</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Members Only</span>
+            <span class="event-date">May 31 · 9:00 AM</span>
+          </div>
+          <h3>Early Bird Breakfast</h3>
+          <p>Exclusive Saturday morning session for Golden Pass members. First access to our new pastry menu, priority booth selection, and a complimentary morning brew.</p>
+          <div class="event-footer">
+            <span class="event-price">Free (Pass required)</span>
+            <span class="event-spots"><span>20</span> spots left</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" data-cat="barismo" data-day="3jun">
+        <div class="event-banner" style="background:linear-gradient(135deg,#1a0800,#111);">🔬</div>
+        <div class="event-body">
+          <div class="event-meta">
+            <span class="event-tag">Coffee Workshop</span>
+            <span class="event-date">Jun 3 · 10:00 AM</span>
+          </div>
+          <h3>Single Origin Tasting</h3>
+          <p>A cupped tasting of five rare single-origin beans from Ethiopia, Colombia, Yemen, and beyond. Guided by our sourcing team. Expand your palate.</p>
+          <div class="event-footer">
+            <span class="event-price">$15 / $8 (Pass)</span>
+            <span class="event-spots"><span>16</span> spots left</span>
+          </div>
+        </div>
+      </div>
+    </div><!-- end events-grid -->
+
+    <div id="no-events-msg" style="display:none; text-align:center; padding:4rem 2rem;">
+      <div style="font-size:3rem; margin-bottom:1rem;">🌙</div>
+      <h3 style="font-family:'Cormorant Garamond',serif; font-size:1.8rem; color:var(--white); margin-bottom:0.75rem;">No Events This Day</h3>
+      <p style="font-size:0.9rem; color:var(--white-dim); line-height:1.8; max-width:400px; margin:0 auto 1.5rem;">Looks like this day is free — the perfect excuse to just come in, order something golden, and enjoy the silence.</p>
+      <button class="btn-outline" onclick="showAllEvents()">Show All Events</button>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="howitworks">
+  <div style="text-align:center; max-width:500px; margin:0 auto 4rem;">
+    <p class="section-label">Simple Process</p>
+    <h2>How to <em>Join</em></h2>
+    <div class="divider" style="margin:0 auto 1.5rem;"></div>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <span class="step-icon">🔍</span>
+      <h3>Browse Events</h3>
+      <p>Explore our full calendar and find the events that match your goals — whether it's studying, networking, or just having fun.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <span class="step-icon">📝</span>
+      <h3>Reserve Your Spot</h3>
+      <p>Click "Reserve My Spot" on any event. Fill in your name and email — that's it. Confirmation arrives instantly.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <span class="step-icon">☕</span>
+      <h3>Show Up & Enjoy</h3>
+      <p>Arrive at Golden Sip, mention your name at the door, and dive in. Your seat is waiting with a fresh brew on the way.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <span class="step-icon">✦</span>
+      <h3>Unlock More with Pass</h3>
+      <p>Golden Pass members get discounted or free entry to most events, plus exclusive access to member-only experiences.</p>
+    </div>
+  </div>
+</section>
+
+<!-- MEMBER PERKS — rediseñado -->
+<section id="perks">
+  <div class="perks-header">
+    <p class="section-label" style="text-align:center;">Golden Pass Members</p>
+    <h2 style="text-align:center;">Events Are Better<br><em>As a Member</em></h2>
+    <div class="divider"></div>
+    <p>Starting at $14/month — your membership pays for itself in one event. Join hundreds of students and professionals who make Golden Sip their home base.</p>
+  </div>
+
+  <!-- 4 perks en grid -->
+  <div class="perks-cards">
+    <div class="perk-card">
+      <div class="perk-icon-lg">🎟️</div>
+      <strong>Free or Discounted Entry</strong>
+      <span>Most events are free or heavily discounted for Golden Pass holders. Your membership pays for itself in one event.</span>
+    </div>
+    <div class="perk-card">
+      <div class="perk-icon-lg">⚡</div>
+      <strong>Early Registration</strong>
+      <span>Members get 48-hour early access to event registration before spots open to the public. Never miss a sold-out event.</span>
+    </div>
+    <div class="perk-card">
+      <div class="perk-icon-lg">🏅</div>
+      <strong>Members-Only Events</strong>
+      <span>Exclusive mixers, tastings, and previews that are simply not available to regular guests. Your circle, your events.</span>
+    </div>
+    <div class="perk-card">
+      <div class="perk-icon-lg">🎁</div>
+      <strong>Event Raffle Access</strong>
+      <span>Every event you attend earns you raffle entries for free memberships, merchandise, and premium drinks.</span>
+    </div>
+  </div>
+
+  <!-- Banner CTA horizontal — sin sticky, sin overflow -->
+  <div class="perks-banner">
+    <div class="perks-banner-text">
+      <h3>Get Your <em>Golden Pass</em></h3>
+      <p>Cancel anytime. No commitment, just perks. Join hundreds of students and professionals who make Golden Sip their second home — and their favorite place to get things done.</p>
+    </div>
+    <div class="perks-banner-action">
+      <span class="perks-banner-price">From $14 / month</span>
+      <a href="index.html" class="btn-primary">View Membership Plans</a>
+      <a href="#events" class="btn-outline" style="padding:0.7rem 2rem; font-size:0.8rem;">Browse Events First</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter" style="background:var(--deep); text-align:center; padding:6rem 2rem;">
+  <p class="section-label" style="text-align:center;">Stay in the Loop</p>
+  <h2 style="text-align:center;">Never Miss an <em>Event</em></h2>
+  <div class="divider" style="margin:0 auto 1rem;"></div>
+  <p style="font-size:0.9rem; color:var(--white-dim); line-height:1.8; max-width:420px; margin:0 auto 2rem;">Get the monthly event calendar delivered to your inbox every first Monday. No spam, just good things happening at Golden Sip.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="your@email.com">
+    <button class="btn-primary" onclick="alert('You\'re in! Check your inbox for the May calendar ✦')">Subscribe</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span class="gold">Golden Sip</span> — Events. All rights reserved.</p>
+  <p>Crafted with precision. Served with purpose.</p>
+  <p style="font-family:'Space Mono',monospace; font-size:0.65rem; color:var(--gold-dim);">EVENTS v2.0</p>
+</footer>
+
+<!-- REGISTER MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <h3>Reserve Your Spot</h3>
+    <span class="modal-event-name" id="modalEventName">Event Name</span>
+    <div class="modal-form">
+      <div>
+        <label>Full Name</label>
+        <input type="text" placeholder="Alex Johnson">
+      </div>
+      <div>
+        <label>Email Address</label>
+        <input type="email" placeholder="alex@email.com">
+      </div>
+      <div>
+        <label>Ticket Type</label>
+        <select>
+          <option>General Admission</option>
+          <option>Golden Pass Member (discount applied)</option>
+        </select>
+      </div>
+      <div>
+        <label>Number of Seats</label>
+        <select>
+          <option>1 seat</option>
+          <option>2 seats</option>
+          <option>3 seats</option>
+          <option>4 seats</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="margin-top:0.5rem;" onclick="confirmReservation()">Confirm Reservation</button>
+      <p class="modal-note">You'll receive a confirmation email within minutes. <span>Golden Pass members</span> enjoy free or discounted entry on most events.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ─── EVENT CARDS: click to register
+  document.querySelectorAll('.event-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const name = card.querySelector('h3').textContent;
+      openModal(name);
+    });
+  });
+
+  function openModal(eventName) {
+    document.getElementById('modalEventName').textContent = eventName;
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+  function confirmReservation() {
+    closeModal();
+    setTimeout(() => alert('Reservation confirmed! ✦ Check your inbox for details. See you at Golden Sip!'), 200);
+  }
+  document.getElementById('modalOverlay').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  // ─── FILTER
+  let currentCat = 'all';
+  let currentDay = null;
+
+  function filterEvents(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('active'));
+    currentDay = null;
+    applyFilters(cat, null);
+  }
+
+  function applyFilters(cat, day) {
+    currentCat = cat !== undefined ? cat : currentCat;
+    currentDay = day !== undefined ? day : currentDay;
+
+    const cards = document.querySelectorAll('.event-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const matchCat = currentCat === 'all' || card.dataset.cat === currentCat;
+      const matchDay = currentDay === null || card.dataset.day === String(currentDay);
+      if (matchCat && matchDay) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    const grid = document.getElementById('eventsGrid');
+    const noMsg = document.getElementById('no-events-msg');
+    if (visible === 0) {
+      grid.style.display = 'none';
+      noMsg.style.display = 'block';
+    } else {
+      grid.style.display = 'grid';
+      noMsg.style.display = 'none';
+    }
+  }
+
+  function showAllEvents() {
+    currentDay = null;
+    currentCat = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-btn').classList.add('active');
+    document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('active'));
+    applyFilters('all', null);
+  }
+
+  // ─── CALENDAR STRIP
+  const eventDays = [5, 8, 10, 12, 15, 17, 20, 22, 27, 29, 31];
+  const strip = document.getElementById('calStrip');
+  const dayNames = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+
+  for (let i = 0; i < 31; i++) {
+    const d = new Date(2026, 4, i + 1);
+    const dayNum = i + 1;
+    const hasEvent = eventDays.includes(dayNum);
+    const dayEl = document.createElement('div');
+    dayEl.className = 'cal-day' + (hasEvent ? ' has-event' : '');
+    dayEl.innerHTML = `
+      <span class="day-name">${dayNames[d.getDay()]}</span>
+      <span class="day-num">${dayNum}</span>
+      ${hasEvent ? '<div class="day-dot"></div>' : ''}
+    `;
+    dayEl.addEventListener('click', () => {
+      if (dayEl.classList.contains('active')) {
+        dayEl.classList.remove('active');
+        currentDay = null;
+        applyFilters(currentCat, null);
+        return;
+      }
+      document.querySelectorAll('.cal-day').forEach(el => el.classList.remove('active'));
+      dayEl.classList.add('active');
+      document.getElementById('events').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelector('#events h2').innerHTML = hasEvent
+        ? `Events on <em>May ${dayNum}</em>`
+        : `May <em>${dayNum}</em>`;
+      applyFilters(currentCat, dayNum);
+    });
+    strip.appendChild(dayEl);
+  }
+</script>
+</body>
+</html>
